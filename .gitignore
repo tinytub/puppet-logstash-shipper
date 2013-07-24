@@ -1,0 +1,4 @@
+files/*.rpm
+files/*.gz
+files/*.bz
+files/*.jar

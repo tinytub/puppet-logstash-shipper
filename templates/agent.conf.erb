@@ -1,0 +1,30 @@
+input {
+file{
+type => "nginx-access"
+path => "<%= accesspath %>"
+exclude => "*.gz"
+sincedb_path => "/usr/local/logstash/"
+tags => ["<%= tag1 %>"]
+}
+file {
+type => "nginx-error"
+path => "<%= errorpath %>"
+exclude => "*.gz"
+sincedb_path => "/usr/local/logstash/"
+tags => ["<%= tag2 %>"]
+}
+}
+filter {
+grep{
+type => "nginx-access"
+negate => true
+match => ["@message","ChinaCache"]
+}
+} 
+output {
+redis {
+host => "10.7.3.122"
+data_type =>"list"
+key => "logstash:redis"
+}
+}
